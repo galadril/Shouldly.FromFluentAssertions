@@ -1,4 +1,4 @@
-﻿param(
+param(
     [Parameter(Mandatory=$true)]
     [Alias("s")]
     [string]$SolutionPath
@@ -49,7 +49,8 @@ $mapping = @(
     @{ Key = 'Should().ThrowAsync<' ; Value = 'ShouldThrowAsync<' },
     @{ Key = 'Should().Throw' ; Value = 'ShouldThrow' },
     @{ Key = 'Should().NotEqual' ; Value = 'ShouldNotBe' },
-    @{ Key = 'ShouldThrowExactly' ; Value = 'ShouldThrow' }
+    @{ Key = 'ShouldThrowExactly' ; Value = 'ShouldThrow' },
+    @{ Key = 'Should().BeAssignableTo' ; Value = 'ShouldBeAssignableTo' }
 )
 
 # Function to get the encoding of a file
