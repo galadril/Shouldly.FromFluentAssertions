@@ -53,6 +53,7 @@ $mapping = @(
     @{ Key = 'Should().NotContainValue(' ; Value = 'ShouldNotContainValue(' },
     @{ Key = 'Should().Throw(' ; Value = 'ShouldThrow(' },
     @{ Key = 'Should().NotThrow(' ; Value = 'ShouldNotThrow(' },
+    @{ Key = 'Should().NotThrowAsync(' ; Value = 'ShouldNotThrowAsync(' },
     @{ Key = 'Should().ThrowExactly(' ; Value = 'ShouldThrowExactly(' },
     @{ Key = 'Should().Throw().WithMessage(' ; Value = 'ShouldThrow().Message.ShouldBe(' },
     @{ Key = 'Should().BeOfType<' ; Value = 'ShouldBeOfType<' },
