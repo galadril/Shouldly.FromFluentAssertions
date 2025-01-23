@@ -1,7 +1,17 @@
 param(
-    [Parameter(Mandatory=$true)]
+    # The Path to the solution file to migrate
+    [Parameter(Mandatory = $true)]
     [Alias("s")]
-    [string]$SolutionPath
+    [ValidateScript({ 
+            if (! (Test-Path $_ -PathType Leaf)) {
+                throw "Solution path '$_' does not exist or is not a file."
+            }
+            if (! $_.ToString().EndsWith(".sln")) {
+                throw "Solution path '$_' is not a .sln file."
+            }
+            return $true
+        })]
+    [System.IO.FileInfo]$SolutionPath
 )
 
 # Define a direct mapping between FluentAssertions and Shouldly
@@ -43,6 +53,7 @@ $mapping = @(
     @{ Key = 'Should().NotContainValue(' ; Value = 'ShouldNotContainValue(' },
     @{ Key = 'Should().Throw(' ; Value = 'ShouldThrow(' },
     @{ Key = 'Should().NotThrow(' ; Value = 'ShouldNotThrow(' },
+    @{ Key = 'Should().NotThrowAsync(' ; Value = 'ShouldNotThrowAsync(' },
     @{ Key = 'Should().ThrowExactly(' ; Value = 'ShouldThrowExactly(' },
     @{ Key = 'Should().Throw().WithMessage(' ; Value = 'ShouldThrow().Message.ShouldBe(' },
     @{ Key = 'Should().BeOfType<' ; Value = 'ShouldBeOfType<' },
@@ -98,7 +109,8 @@ function Remove-DuplicateUsings {
                 $uniqueUsings[$line.Trim()] = $true
                 $result += $line
             }
-        } else {
+        }
+        else {
             $inUsingsSection = $false
             $result += $line
         }
@@ -117,7 +129,7 @@ function Replace-WithMessage {
         @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
         @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\(\$"([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
         @{ Pattern = 'await\s+(\w+)\.ShouldThrowAsync<([^>]+)>\(\)' ; Replacement = 'var ex = await $1.ShouldThrowAsync<$2>();' },
-        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)' ; Replacement = '$1.ShouldThrow<$2>()' },
+        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)' ; Replacement = '$1.ShouldThrow<$2>()' }
     )
 
     foreach ($pattern in $patterns) {
@@ -151,7 +163,7 @@ function Replace-ContainSingleWhichMessage {
 }
 
 # Get all C# files in the solution
-$files = Get-ChildItem -Path $SolutionPath -Recurse -Include *.cs
+$files = Get-ChildItem -Path $SolutionPath.Directory -Recurse -Include *.cs
 
 foreach ($file in $files) {
     $content = Get-Content -Path $file.FullName -Raw
@@ -187,7 +199,7 @@ foreach ($file in $files) {
 }
 
 # Check for central package management file
-$centralPackageFile = Get-ChildItem -Path $SolutionPath -Recurse -Include "Directory.Packages.props"
+$centralPackageFile = Get-ChildItem -Path $SolutionPath.Directory -Recurse -Include "Directory.Packages.props"
 
 if ($centralPackageFile) {
     $centralContent = Get-Content -Path $centralPackageFile.FullName -Raw
@@ -204,7 +216,7 @@ if ($centralPackageFile) {
     }
 
     # Adjust individual project files if central package management is not used
-    $projectFiles = Get-ChildItem -Path $SolutionPath -Recurse -Include *.csproj
+    $projectFiles = Get-ChildItem -Path $SolutionPath.Directory -Recurse -Include *.csproj
     foreach ($project in $projectFiles) {
         $projectContent = Get-Content -Path $project.FullName -Raw
         $projectEncoding = Get-FileEncoding -filePath $project.FullName
@@ -220,9 +232,10 @@ if ($centralPackageFile) {
             [System.IO.File]::WriteAllText($project.FullName, $projectContent, $projectEncoding)
         }
     }
-} else {
+}
+else {
     # Adjust individual project files if central package management is not used
-    $projectFiles = Get-ChildItem -Path $SolutionPath -Recurse -Include *.csproj
+    $projectFiles = Get-ChildItem -Path $SolutionPath.Directory -Recurse -Include *.csproj
 
     foreach ($project in $projectFiles) {
         $projectContent = Get-Content -Path $project.FullName -Raw
