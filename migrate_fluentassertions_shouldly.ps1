@@ -1,5 +1,5 @@
 param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [Alias("s")]
     [string]$SolutionPath
 )
@@ -98,7 +98,8 @@ function Remove-DuplicateUsings {
                 $uniqueUsings[$line.Trim()] = $true
                 $result += $line
             }
-        } else {
+        }
+        else {
             $inUsingsSection = $false
             $result += $line
         }
@@ -117,7 +118,7 @@ function Replace-WithMessage {
         @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
         @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\(\$"([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
         @{ Pattern = 'await\s+(\w+)\.ShouldThrowAsync<([^>]+)>\(\)' ; Replacement = 'var ex = await $1.ShouldThrowAsync<$2>();' },
-        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)' ; Replacement = '$1.ShouldThrow<$2>()' },
+        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)' ; Replacement = '$1.ShouldThrow<$2>()' }
     )
 
     foreach ($pattern in $patterns) {
@@ -220,7 +221,8 @@ if ($centralPackageFile) {
             [System.IO.File]::WriteAllText($project.FullName, $projectContent, $projectEncoding)
         }
     }
-} else {
+}
+else {
     # Adjust individual project files if central package management is not used
     $projectFiles = Get-ChildItem -Path $SolutionPath -Recurse -Include *.csproj
 
