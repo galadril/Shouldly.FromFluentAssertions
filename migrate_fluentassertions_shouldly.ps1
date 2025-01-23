@@ -50,7 +50,13 @@ $mapping = @(
     @{ Key = 'Should().Throw' ; Value = 'ShouldThrow' },
     @{ Key = 'Should().NotEqual' ; Value = 'ShouldNotBe' },
     @{ Key = 'ShouldThrowExactly' ; Value = 'ShouldThrow' },
-    @{ Key = 'Should().BeAssignableTo' ; Value = 'ShouldBeAssignableTo' }
+    @{ Key = 'Should().BeAssignableTo' ; Value = 'ShouldBeAssignableTo' },
+    @{ Key = 'Should().NotBeNullOrEmpty' ; Value = 'ShouldNotBeNullOrEmpty' },
+    @{ Key = 'Should().NotBeEmpty' ; Value = 'ShouldNotBeEmpty' },
+    @{ Key = 'Should().NotBeNull' ; Value = 'ShouldNotBeNull' },
+    @{ Key = 'Should().NotBeNullOrWhiteSpace' ; Value = 'ShouldNotBeNullOrWhiteSpace' },
+    @{ Key = 'Should().MatchRegex' ; Value = 'ShouldMatch' },
+    @{ Key = 'Should().BeNull' ; Value = 'ShouldBeNull' }
 )
 
 # Function to get the encoding of a file
