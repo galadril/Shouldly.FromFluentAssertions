@@ -107,9 +107,11 @@ function Replace-WithMessage {
         [string]$content
     )
     $patterns = @(
-        @{ Pattern = 'await\s+(\w+)\.ShouldThrowAsync<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = 'await $1.ShouldThrowAsync<$2>("$3")' },
-        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = '$1.ShouldThrow<$2>().Message.ShouldBe("$3")' },
-        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\(\$"([^"]+)"\)' ; Replacement = '$1.ShouldThrow<$2>().Message.ShouldBe($"$3")' }
+        @{ Pattern = 'await\s+(\w+)\.ShouldThrowAsync<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrowAsync<$2>(); ex.Message.ShouldBe("$3");' },
+        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\("([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
+        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)\s*\.\s*WithMessage\(\$"([^"]+)"\)' ; Replacement = 'var ex = await $1.ShouldThrow<$2>(); ex.Message.ShouldBe("$3");' },
+        @{ Pattern = 'await\s+(\w+)\.ShouldThrowAsync<([^>]+)>\(\)' ; Replacement = 'var ex = await $1.ShouldThrowAsync<$2>();' },
+        @{ Pattern = '(\w+)\.ShouldThrow<([^>]+)>\(\)' ; Replacement = '$1.ShouldThrow<$2>()' },
     )
 
     foreach ($pattern in $patterns) {
