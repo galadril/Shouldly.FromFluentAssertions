@@ -67,7 +67,8 @@ $mapping = @(
     @{ Key = 'Should().NotBeNull' ; Value = 'ShouldNotBeNull' },
     @{ Key = 'Should().NotBeNullOrWhiteSpace' ; Value = 'ShouldNotBeNullOrWhiteSpace' },
     @{ Key = 'Should().MatchRegex' ; Value = 'ShouldMatch' },
-    @{ Key = 'Should().BeNull' ; Value = 'ShouldBeNull' }
+    @{ Key = 'Should().BeNull' ; Value = 'ShouldBeNull' },
+    @{ Key = 'Should().OnlyContain('; Value = 'ShouldAllBe('}
 )
 
 # Function to get the encoding of a file
