@@ -208,7 +208,7 @@ if ($centralPackageFile) {
     $originalCentralContent = $centralContent
 
     # Remove FluentAssertions package and add Shouldly package in the same place
-    $centralContent = $centralContent -replace '<PackageVersion Include="FluentAssertions".*?\/>', '<PackageVersion Include="Shouldly" Version="4.2.1" />'
+    $centralContent = $centralContent -replace '<PackageVersion Include="FluentAssertions".*?\/>', '<PackageVersion Include="Shouldly" Version="4.3.0" />'
 
     # Save updated central package file with the original encoding if it has changed
     if ($centralContent -ne $originalCentralContent) {
@@ -244,9 +244,9 @@ else {
         $originalProjectContent = $projectContent
 
         # Remove FluentAssertions package and add Shouldly package in the same place
-        $projectContent = $projectContent -replace '<PackageReference Include="FluentAssertions".*?\/>', '<PackageReference Include="Shouldly" Version="4.2.1" />'
-        $projectContent = $projectContent -replace '<PackageReference Include="FluentAssertions" \/>', '<PackageReference Include="Shouldly" Version="4.2.1" />'
-        $projectContent = $projectContent -replace '<PackageVersion Include="FluentAssertions".*?\/>', '<PackageVersion Include="Shouldly" Version="4.2.1" />'
+        $projectContent = $projectContent -replace '<PackageReference Include="FluentAssertions".*?\/>', '<PackageReference Include="Shouldly" Version="4.3.0" />'
+        $projectContent = $projectContent -replace '<PackageReference Include="FluentAssertions" \/>', '<PackageReference Include="Shouldly" Version="4.3.0" />'
+        $projectContent = $projectContent -replace '<PackageVersion Include="FluentAssertions".*?\/>', '<PackageVersion Include="Shouldly" Version="4.3.0" />'
 
         # Save updated project file with the original encoding if it has changed
         if ($projectContent -ne $originalProjectContent) {
