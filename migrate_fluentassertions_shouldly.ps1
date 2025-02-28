@@ -68,7 +68,61 @@ $mapping = @(
     @{ Key = 'Should().NotBeNullOrWhiteSpace' ; Value = 'ShouldNotBeNullOrWhiteSpace' },
     @{ Key = 'Should().MatchRegex' ; Value = 'ShouldMatch' },
     @{ Key = 'Should().BeNull' ; Value = 'ShouldBeNull' },
-    @{ Key = 'Should().OnlyContain('; Value = 'ShouldAllBe('}
+    @{ Key = 'Should().OnlyContain('; Value = 'ShouldAllBe('},
+    
+    # String assertions
+    @{ Key = 'Should().StartWith(' ; Value = 'ShouldStartWith(' },
+    @{ Key = 'Should().EndWith(' ; Value = 'ShouldEndWith(' },
+    @{ Key = 'Should().HaveLength(' ; Value = 'Length.ShouldBe(' },
+    @{ Key = 'Should().BeEmpty()' ; Value = 'ShouldBeEmpty()' },
+    @{ Key = 'Should().BeNullOrEmpty()' ; Value = 'ShouldBeNullOrEmpty()' },
+    @{ Key = 'Should().BeNullOrWhiteSpace()' ; Value = 'ShouldBeNullOrWhiteSpace()' },
+    
+    # Collection assertions
+    @{ Key = 'Should().BeSubsetOf(' ; Value = 'ShouldBeSubsetOf(' },
+    @{ Key = 'Should().HaveSameCount(' ; Value = 'Count.ShouldBe(' },
+    @{ Key = 'Should().AllBe(' ; Value = 'ShouldAllBe(' },
+    @{ Key = 'Should().Contain().Which.' ; Value = 'ShouldContain(item => item.' },
+    @{ Key = 'Should().ContainSingle(' ; Value = 'ShouldContainSingle(' },
+    
+    # Dictionary assertions
+    @{ Key = 'Should().ContainKeyAndValue(' ; Value = 'ShouldContainKeyAndValue(' },
+    
+    # DateTime assertions
+    @{ Key = 'Should().BeAfter(' ; Value = 'ShouldBeGreaterThan(' },
+    @{ Key = 'Should().BeBefore(' ; Value = 'ShouldBeLessThan(' },
+    @{ Key = 'Should().BeOnOrAfter(' ; Value = 'ShouldBeGreaterThanOrEqualTo(' },
+    @{ Key = 'Should().BeOnOrBefore(' ; Value = 'ShouldBeLessThanOrEqualTo(' },
+    
+    # Tasks/async
+    @{ Key = 'Should().CompleteWithin(' ; Value = 'ShouldCompleteIn(' },
+    
+    # Additional common patterns
+    @{ Key = 'Should().Equal(' ; Value = 'ShouldBe(' },
+    @{ Key = 'Should().BeOneOf(' ; Value = 'ShouldBeOneOf(' }
+    
+    # Commented mappings for methods without direct equivalents
+    # @{ Key = 'Should().BeInAscendingOrder()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeInDescendingOrder()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().Intersect(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().ContainInOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().ContainInConsecutiveOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeCloseTo(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeSameDateAs(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveDay(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveMonth(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveYear(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveHour(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveMinute(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().HaveSecond(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().Exist()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().NotExist()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().NotCompleteWithin(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeApproximately(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().SatisfyRespectively(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().SatisfyAllConditions(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().Match(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().ContainItemsAssignableTo<' ; Value = '/* No direct equivalent in Shouldly */' }
 )
 
 # Function to get the encoding of a file
@@ -85,7 +139,7 @@ function Get-FileEncoding {
 }
 
 # Function to remove AssertionScope and keep internal lines
-function Replace-AssertionScope {
+function Convert-AssertionScope {
     param (
         [string]$content
     )
@@ -121,7 +175,7 @@ function Remove-DuplicateUsings {
 }
 
 # Function to replace WithMessage in ShouldThrow and ShouldThrowAsync
-function Replace-WithMessage {
+function Convert-WithMessage {
     param (
         [string]$content
     )
@@ -140,7 +194,7 @@ function Replace-WithMessage {
     return $content
 }
 
-function Replace-ContainSingleWhichMessage {
+function Convert-ContainSingleWhichMessage {
     param (
         [string]$content
     )
@@ -181,13 +235,13 @@ foreach ($file in $files) {
     }
 
     # Replace AssertionScope with internal lines
-    $content = Replace-AssertionScope -content $content
+    $content = Convert-AssertionScope -content $content
 
     # Replace WithMessage in ShouldThrowAsync
-    $content = Replace-WithMessage -content $content
+    $content = Convert-WithMessage -content $content
 
     # Replace ContainSingle().Which.Exception.Message.ShouldBe
-    $content = Replace-ContainSingleWhichMessage -content $content
+    $content = Convert-ContainSingleWhichMessage -content $content
 
     # Remove duplicate using statements
     $content = Remove-DuplicateUsings -content $content
