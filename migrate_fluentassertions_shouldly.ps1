@@ -139,7 +139,7 @@ function Get-FileEncoding {
 }
 
 # Function to remove AssertionScope and keep internal lines
-function Replace-AssertionScope {
+function Convert-AssertionScope {
     param (
         [string]$content
     )
@@ -175,7 +175,7 @@ function Remove-DuplicateUsings {
 }
 
 # Function to replace WithMessage in ShouldThrow and ShouldThrowAsync
-function Replace-WithMessage {
+function Convert-WithMessage {
     param (
         [string]$content
     )
@@ -194,7 +194,7 @@ function Replace-WithMessage {
     return $content
 }
 
-function Replace-ContainSingleWhichMessage {
+function Convert-ContainSingleWhichMessage {
     param (
         [string]$content
     )
@@ -235,13 +235,13 @@ foreach ($file in $files) {
     }
 
     # Replace AssertionScope with internal lines
-    $content = Replace-AssertionScope -content $content
+    $content = Convert-AssertionScope -content $content
 
     # Replace WithMessage in ShouldThrowAsync
-    $content = Replace-WithMessage -content $content
+    $content = Convert-WithMessage -content $content
 
     # Replace ContainSingle().Which.Exception.Message.ShouldBe
-    $content = Replace-ContainSingleWhichMessage -content $content
+    $content = Convert-ContainSingleWhichMessage -content $content
 
     # Remove duplicate using statements
     $content = Remove-DuplicateUsings -content $content
