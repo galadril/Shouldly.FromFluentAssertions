@@ -18,14 +18,13 @@ param(
 $mapping = @(
     @{ Key = 'using FluentAssertions;' ; Value = 'using Shouldly;' },
     @{ Key = 'using FluentAssertions.Execution;' ; Value = 'using Shouldly;' },
-    @{ Key = 'using var scope = new AssertionScope();' ; Value = '' },
     @{ Key = 'Should().Be(' ; Value = 'ShouldBe(' },
     @{ Key = 'Should().NotBe(' ; Value = 'ShouldNotBe(' },
-    @{ Key = 'Should().BeNull()' ; Value = 'ShouldBeNull()' },
-    @{ Key = 'Should().NotBeNull()' ; Value = 'ShouldNotBeNull()' },
-    @{ Key = 'Should().BeTrue()' ; Value = 'ShouldBeTrue()' },
+    @{ Key = 'Should().BeNull(' ; Value = 'ShouldBeNull(' },
+    @{ Key = 'Should().NotBeNull(' ; Value = 'ShouldNotBeNull(' },
+    @{ Key = 'Should().BeTrue(' ; Value = 'ShouldBeTrue(' },
     @{ Key = 'Should().BeEquivalentTo' ; Value = 'ShouldBe' },
-    @{ Key = 'Should().BeFalse()' ; Value = 'ShouldBeFalse()' },
+    @{ Key = 'Should().BeFalse(' ; Value = 'ShouldBeFalse(' },
     @{ Key = 'Should().BeSameAs(' ; Value = 'ShouldBeSameAs(' },
     @{ Key = 'Should().NotBeSameAs(' ; Value = 'ShouldNotBeSameAs(' },
     @{ Key = 'Should().BeOfType(' ; Value = 'ShouldBeOfType(' },
@@ -34,8 +33,8 @@ $mapping = @(
     @{ Key = 'Should().BeGreaterThanOrEqualTo(' ; Value = 'ShouldBeGreaterThanOrEqualTo(' },
     @{ Key = 'Should().BeLessThan(' ; Value = 'ShouldBeLessThan(' },
     @{ Key = 'Should().BeLessThanOrEqualTo(' ; Value = 'ShouldBeLessThanOrEqualTo(' },
-    @{ Key = 'Should().BePositive()' ; Value = 'ShouldBePositive()' },
-    @{ Key = 'Should().BeNegative()' ; Value = 'ShouldBeNegative()' },
+    @{ Key = 'Should().BePositive(' ; Value = 'ShouldBePositive(' },
+    @{ Key = 'Should().BeNegative(' ; Value = 'ShouldBeNegative(' },
     @{ Key = 'Should().BeInRange(' ; Value = 'ShouldBeInRange(' },
     @{ Key = 'Should().NotBeInRange(' ; Value = 'ShouldNotBeInRange(' },
     @{ Key = 'Should().Contain(' ; Value = 'ShouldContain(' },
@@ -46,7 +45,7 @@ $mapping = @(
     @{ Key = 'Should().HaveCountGreaterThan(' ; Value = 'Count.ShouldBeGreaterThan(' },
     @{ Key = 'Should().HaveCountLessThan(' ; Value = 'Count.ShouldBeLessThan(' },
     @{ Key = 'Should().AllBeAssignableTo(' ; Value = 'ShouldAllBeAssignableTo(' },
-    @{ Key = 'Should().OnlyHaveUniqueItems()' ; Value = 'ShouldAllBeUnique()' },
+    @{ Key = 'Should().OnlyHaveUniqueItems(' ; Value = 'ShouldAllBeUnique(' },
     @{ Key = 'Should().ContainKey(' ; Value = 'ShouldContainKey(' },
     @{ Key = 'Should().NotContainKey(' ; Value = 'ShouldNotContainKey(' },
     @{ Key = 'Should().ContainValue(' ; Value = 'ShouldContainValue(' },
@@ -69,14 +68,15 @@ $mapping = @(
     @{ Key = 'Should().MatchRegex' ; Value = 'ShouldMatch' },
     @{ Key = 'Should().BeNull' ; Value = 'ShouldBeNull' },
     @{ Key = 'Should().OnlyContain('; Value = 'ShouldAllBe('},
+    @{ Key = 'Should().BeGreaterOrEqualTo('; Value = 'ShouldBeGreaterThanOrEqualTo('},
     
     # String assertions
     @{ Key = 'Should().StartWith(' ; Value = 'ShouldStartWith(' },
     @{ Key = 'Should().EndWith(' ; Value = 'ShouldEndWith(' },
     @{ Key = 'Should().HaveLength(' ; Value = 'Length.ShouldBe(' },
-    @{ Key = 'Should().BeEmpty()' ; Value = 'ShouldBeEmpty()' },
-    @{ Key = 'Should().BeNullOrEmpty()' ; Value = 'ShouldBeNullOrEmpty()' },
-    @{ Key = 'Should().BeNullOrWhiteSpace()' ; Value = 'ShouldBeNullOrWhiteSpace()' },
+    @{ Key = 'Should().BeEmpty(' ; Value = 'ShouldBeEmpty(' },
+    @{ Key = 'Should().BeNullOrEmpty(' ; Value = 'ShouldBeNullOrEmpty(' },
+    @{ Key = 'Should().BeNullOrWhiteSpace(' ; Value = 'ShouldBeNullOrWhiteSpace(' },
     
     # Collection assertions
     @{ Key = 'Should().BeSubsetOf(' ; Value = 'ShouldBeSubsetOf(' },
@@ -102,8 +102,8 @@ $mapping = @(
     @{ Key = 'Should().BeOneOf(' ; Value = 'ShouldBeOneOf(' }
     
     # Commented mappings for methods without direct equivalents
-    # @{ Key = 'Should().BeInAscendingOrder()' ; Value = '/* No direct equivalent in Shouldly */' },
-    # @{ Key = 'Should().BeInDescendingOrder()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeInAscendingOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().BeInDescendingOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().Intersect(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().ContainInOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().ContainInConsecutiveOrder(' ; Value = '/* No direct equivalent in Shouldly */' },
@@ -115,8 +115,8 @@ $mapping = @(
     # @{ Key = 'Should().HaveHour(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().HaveMinute(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().HaveSecond(' ; Value = '/* No direct equivalent in Shouldly */' },
-    # @{ Key = 'Should().Exist()' ; Value = '/* No direct equivalent in Shouldly */' },
-    # @{ Key = 'Should().NotExist()' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().Exist(' ; Value = '/* No direct equivalent in Shouldly */' },
+    # @{ Key = 'Should().NotExist(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().NotCompleteWithin(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().BeApproximately(' ; Value = '/* No direct equivalent in Shouldly */' },
     # @{ Key = 'Should().SatisfyRespectively(' ; Value = '/* No direct equivalent in Shouldly */' },
@@ -139,13 +139,22 @@ function Get-FileEncoding {
 }
 
 # Function to remove AssertionScope and keep internal lines
-function Convert-AssertionScope {
+function Convert-AssertionScope-Block {
     param (
         [string]$content
     )
     $pattern = 'using \(new AssertionScope\(\)\)\s*{([^}]*)}'
-    $replacement = '$1'
+    
     return [regex]::Replace($content, $pattern, { param($m) $m.Groups[1].Value.Trim() })
+}
+
+function Remove-AssertionScope-Implicit {
+    param (
+        [string]$content
+    )
+    $pattern = '\t*using var \w+\s*=\s*new AssertionScope\(\);(\r?\n?)*'
+    
+    return [regex]::Replace($content, $pattern, '')
 }
 
 # Function to remove duplicate using statements at the top of the file
@@ -234,9 +243,12 @@ foreach ($file in $files) {
         $content = $content.Replace($map.Key, $map.Value)
     }
 
-    # Replace AssertionScope with internal lines
-    $content = Convert-AssertionScope -content $content
+    # Replace AssertionScope blocks while retaining internal lines
+    $content = Convert-AssertionScope-Block -content $content
 
+    # Remove implicit AssertionScope declarations and trim whitespace
+    $content = Remove-AssertionScope-Implicit -content $content
+    
     # Replace WithMessage in ShouldThrowAsync
     $content = Convert-WithMessage -content $content
 
